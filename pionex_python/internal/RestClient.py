@@ -7,7 +7,7 @@ import time
 import json
 
 class RestClient:
-    def __init__(self, key:str=None, secret:str=None):
+    def __init__(self, key:str='', secret:str=''):
         self.base_url = 'https://api.pionex.com/'
         self.key = key
         self.secret = secret
@@ -41,16 +41,17 @@ class RestClient:
                 'PIONEX-SIGNATURE': signature
             })
 
-        #convert to switch in future
-        assert http_method in ['GET','DELETE','PUT','POST']
-        if http_method == 'GET':
-            r = self.session.get(url, params=params, json=data)
-        if http_method == 'DELETE':
-            r = self.session.delete(url, params=params, json=data)
-        if http_method == 'PUT':
-            r = self.session.put(url, params=params, json=data)
-        if http_method == 'POST':
-            r = self.session.post(url, params=params, json=data)
+        match(http_method):
+            case 'GET':
+                r = self.session.get(url, params=params, json=data)
+            case 'DELETE':
+                r = self.session.delete(url, params=params, json=data)
+            case 'PUT':
+                r = self.session.put(url, params=params, json=data)
+            case 'POST':
+                r = self.session.post(url, params=params, json=data)
+            case _:
+                raise REST_Exception('Unsupported HTTP method')
 
         response = r.json()
 
