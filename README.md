@@ -1,34 +1,54 @@
-# Pionex to Python
+# 🚀 Pionex to Python
+
+Easily interact with the [Pionex API](https://pionex-doc.gitbook.io/apidocs) for both REST and WebSocket connections.
+
+## 📦 Installation
 ```sh
-pip install pionex_python
+pip install pionex_py
 ```
-## Description
-Connector library for Pionex Restful and Websocket api.
-Closely resembles [PionexAPI Docs](https://pionex-doc.gitbook.io/apidocs) for intuitive implementation.
-All function names are identical to the endpoints in the documentation.
-## Examples
-#### rest public
-```py
-from pionex_python.restful.Common import Common
+
+## 📝 Description
+Pionex to Python is a connector library for Pionex's REST and WebSocket API.
+- Mirrors the official [Pionex API documentation](https://pionex-doc.gitbook.io/apidocs) for intuitive implementation.
+- Supports both public and private API endpoints.
+- Clean, modular, and easy-to-extend codebase.
+
+Check out the [GitHub project](https://github.com/alejandrorodm/pionex_py) for more details.
+
+## ⚡ Features
+- ✅ **Full REST API support** (public and private endpoints)
+- ✅ **Real-time WebSocket streaming**
+- ✅ **Handles multiple orders with ease**
+- ✅ **Error handling**
+- ✅ **Lightweight and fast**
+
+## 🚀 Quickstart
+
+### 📌 REST API Examples
+
+#### Public Endpoint
+```python
+from pionex_py.restful.Common import Common
 
 commonClient = Common()
 market_data = commonClient.market_data()
 
 print(market_data)
 ```
-#### rest private
-```py
-from pionex_python.restful.Orders import Orders
+
+#### Private Endpoint
+```python
+from pionex_py.restful.Orders import Orders
 
 key, secret = 'X...X', 'X...X'
 
 ordersClient = Orders(key, secret)
 
 order = {
-    'symbol':'BTC_USDT',
-    'side':'BUY',
-    'type':'MARKET',
-    'amount':'16',
+    'symbol': 'BTC_USDT',
+    'side': 'BUY',
+    'type': 'MARKET',
+    'amount': '16',
 }
 
 response = ordersClient.new_order(order=order)
@@ -36,10 +56,10 @@ print(response)
 ```
 
 <details>
-  <summary>Multiple Order Template</summary>
+  <summary>📌 Multiple Order Template</summary>
 
-  ```py
-  from pionex_python.restful.Orders import Orders
+  ```python
+  from pionex_py.restful.Orders import Orders
 
   key, secret = 'X...X', 'X...X'
 
@@ -47,41 +67,53 @@ print(response)
 
   orders = [
     {
-    'side':'BUY',
-    'type':'LIMIT',
-    'price':'57200',
-    'size':'0.0002'
-    },{
-    'side':'SELL',
-    'type':'LIMIT',
-    'price':'60000',
-    'size':'0.0002'
+      'side': 'BUY',
+      'type': 'LIMIT',
+      'price': '57200',
+      'size': '0.0002'
+    },
+    {
+      'side': 'SELL',
+      'type': 'LIMIT',
+      'price': '60000',
+      'size': '0.0002'
     }
   ]
 
-  response = ordersClient.new_multiple_order(symbol='BTC_USDT',orders=orders)
+  response = ordersClient.new_multiple_order(symbol='BTC_USDT', orders=orders)
   print(response)
   ```
 </details>
 
-### Websocket
-```py
-from pionex_python.websocket.PublicStream import PublicStream
+### 📡 WebSocket Example
+```python
+from pionex_py.websocket.PublicStream import PublicStream
 from time import sleep
 
-#stream = PrivateStream(key, secret)
+# For private streams: stream = PrivateStream(key, secret)
 stream = PublicStream()
 
 def onMessage(msg):
     print(msg)
 
-stream.subscribe(callback=onMessage, topic='TRADE',symbol='BTC_USDT')
-stream.subscribe(callback=onMessage, topic='TRADE',symbol='ETH_USDT')
+stream.subscribe(callback=onMessage, topic='TRADE', symbol='BTC_USDT')
+stream.subscribe(callback=onMessage, topic='TRADE', symbol='ETH_USDT')
+
 sleep(5)
-stream.unsubscribe(topic='TRADE',symbol='BTC_USDT')
-stream.unsubscribe(topic='TRADE',symbol='ETH_USDT')
+
+stream.unsubscribe(topic='TRADE', symbol='BTC_USDT')
+stream.unsubscribe(topic='TRADE', symbol='ETH_USDT')
 ```
-## Motivation
-- learn the python packaging and publishing systems
-- implement a python websocket client
-- increase experience with marketplace apis
+
+## 🔧 TODOs & Future Enhancements
+- [ ] Reconnection handling for WebSockets
+- [ ] Improved error handling with retries
+- [ ] More endpoint coverage
+- [ ] CLI for quick trading actions
+
+## 📬 Contributions
+Pull requests are welcome! If you find a bug or want to propose an enhancement, feel free to [open an issue](https://github.com/alejandrorodm/pionex_py/issues).
+
+## 🛠️ License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
